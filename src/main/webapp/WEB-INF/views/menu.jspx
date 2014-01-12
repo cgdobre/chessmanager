@@ -9,6 +9,7 @@
             <menu:item id="fi_team_members" messageCode="global_menu_find" url="/teams?find=ByMembers&amp;form" z="wHo1JZm/vMoW1rdK4vwyjC5VZ9c="/>
             <menu:item id="fi_team_membersandteamnameequals" messageCode="global_menu_find" url="/teams?find=ByMembersAndTeamNameEquals&amp;form" z="2snEaHUFTEhGmgQ/WggbkSEAACc="/>
             <menu:item id="fi_team_teamnameequals" messageCode="global_menu_find" url="/teams?find=ByTeamNameEquals&amp;form" z="JkD/svnikMHpP1op+oqFD4NYg7g="/>
+            <menu:item id="fi_team_createbyteamname" messageCode="global_menu_find" url="/teams?find=createByTeamName&amp;form" z="user-managed"/>
         </menu:category>
         <menu:category id="c_teammatch" z="j/1zb93ea1oRqQa0urGJTW4JQOg=">
             <menu:item id="i_teammatch_new" messageCode="global_menu_new" url="/teammatches?form" z="PCn2hpeRK4+pSd++dYdNNmJm7h4="/>
