@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_ro_progsquad_chessmanager_model_Game" object="${game}" path="/games" z="nAqjHnnQ6q2J85XlpbHamjYgl1k=">
+        <field:display field="gameId" id="s_ro_progsquad_chessmanager_model_Game_gameId" object="${game}" z="vPxuV35/JdnbTIBHPmc5FrzvWp0="/>
+        <field:display field="white" id="s_ro_progsquad_chessmanager_model_Game_white" object="${game}" z="lrtFbI4QXSa77+TThr3ndM5PVCU="/>
+        <field:display field="black" id="s_ro_progsquad_chessmanager_model_Game_black" object="${game}" z="FUNnzcoszuh8l38vbDAI75SoNzg="/>
+        <field:display field="winner" id="s_ro_progsquad_chessmanager_model_Game_winner" object="${game}" z="8LBZhHt18zRENl2joj3ijog5HNQ="/>
+        <field:display field="wonOnTime" id="s_ro_progsquad_chessmanager_model_Game_wonOnTime" object="${game}" z="c4m2Z4OexjNJSF4jUwmy60Ho/kM="/>
+        <field:display field="timePerMove" id="s_ro_progsquad_chessmanager_model_Game_timePerMove" object="${game}" z="n0djE2hvnEb36eIA+v2iuJlGnvI="/>
+        <field:display field="numberOfMoves" id="s_ro_progsquad_chessmanager_model_Game_numberOfMoves" object="${game}" z="Rr0M+GWHSWZHELSBoAJZyi8DRJo="/>
+        <field:display date="true" dateTimePattern="${game_startdate_date_format}" field="startDate" id="s_ro_progsquad_chessmanager_model_Game_startDate" object="${game}" z="mxJ1uP0090DusnPhVeIUkBdtIvw="/>
+        <field:display date="true" dateTimePattern="${game_enddate_date_format}" field="endDate" id="s_ro_progsquad_chessmanager_model_Game_endDate" object="${game}" z="3KXwI++Ue/hqELCoVTMeidS2+9Y="/>
+        <field:display field="teamMatch" id="s_ro_progsquad_chessmanager_model_Game_teamMatch" object="${game}" z="xJXFPau595Ndkpg8YyaOT1ytbuk="/>
+    </page:show>
+</div>

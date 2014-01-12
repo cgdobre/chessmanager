@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_ro_progsquad_chessmanager_model_Player" object="${player}" path="/players" z="bb88vyBLfA0okALaqHL3QnLPHl4=">
+        <field:display field="username" id="s_ro_progsquad_chessmanager_model_Player_username" object="${player}" z="wnBxGmc4sVaCSYxn9fdHcBy3b8I="/>
+        <field:display field="onlineRating" id="s_ro_progsquad_chessmanager_model_Player_onlineRating" object="${player}" z="2irP8yyzQejq3PcIiC2+BZ+/92U="/>
+        <field:display field="timeout" id="s_ro_progsquad_chessmanager_model_Player_timeout" object="${player}" z="oQugTHGiFOpS6gGMtF9NTSwH8Lo="/>
+        <field:display field="totalGames" id="s_ro_progsquad_chessmanager_model_Player_totalGames" object="${player}" z="yNzjV7xwnGXQNCIm9YcHtwOLfZ4="/>
+        <field:display date="true" dateTimePattern="${player_membersince_date_format}" field="memberSince" id="s_ro_progsquad_chessmanager_model_Player_memberSince" object="${player}" z="68DixbJcQV/Bo7cZVa9TtDwJ74A="/>
+        <field:display date="true" dateTimePattern="${player_lastupdate_date_format}" field="lastUpdate" id="s_ro_progsquad_chessmanager_model_Player_lastUpdate" object="${player}" z="b69OfjTe0ebHsuqJ3JvW3snVk/A="/>
+        <field:display field="country" id="s_ro_progsquad_chessmanager_model_Player_country" object="${player}" z="GI7xBzDTdyMWR+2f311cuKIwujU="/>
+        <field:display field="teams" id="s_ro_progsquad_chessmanager_model_Player_teams" object="${player}" z="UYQkgs6qN96I6+L9REvgRd1XItc="/>
+        <field:display field="groupCount" id="s_ro_progsquad_chessmanager_model_Player_groupCount" object="${player}" z="RMmmX/bfEu5xfY6CtT9EPr6s1lA="/>
+        <field:display field="isDisabled" id="s_ro_progsquad_chessmanager_model_Player_isDisabled" object="${player}" z="rfnA2nJYVrwvKmMx5nLkdFCu4qA="/>
+    </page:show>
+</div>
