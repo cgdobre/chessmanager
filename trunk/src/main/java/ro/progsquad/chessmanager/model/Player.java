@@ -42,11 +42,10 @@ public class Player {
     @NotNull
     private String totalGames = "0";
 
-    @NotNull
     @Past
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date memberSince;
+    private Date memberSince = null;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)

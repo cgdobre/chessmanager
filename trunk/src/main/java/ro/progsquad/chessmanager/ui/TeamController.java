@@ -30,10 +30,10 @@ public class TeamController {
 		try {
 			team = TeamFactory.build(teamName, true);
 		} catch (IOException | ParseException e) {
-			e.printStackTrace();
+			System.err.println("Error creating team by name " + teamName + ":\n" + e);e.printStackTrace();
 			return "teams/list";
 		}
-        
+        System.out.println("Finished creating team by name " + teamName);
     	return "redirect:/teams/" + team.getId();
     }
 }

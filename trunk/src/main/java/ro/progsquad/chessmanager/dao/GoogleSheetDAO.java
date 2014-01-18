@@ -165,5 +165,10 @@ public class GoogleSheetDAO {
 		
 		entry.update(); // This updates the existing entry.
 	}
+	
+	public List<ListEntry> getRows() throws IOException, ServiceException {
+		ListFeed feed = service.getFeed(worksheet.getListFeedUrl(), ListFeed.class);
+		return feed.getEntries();
+	}
 
 }

@@ -88,13 +88,8 @@ public class TeamFactory {
 				Player player = PlayerFactory.build(username);
 				
 				if (!player.getIsDisabled()) {
-					Set<Player> players = new HashSet<Player>();
-					players.add(player);
-					Set<Team> playerTeams = new HashSet<Team>();
-					playerTeams.addAll(Team.findTeamsByMembers(players).getResultList());
-					if (!playerTeams.contains(team)) {
-						playerTeams.add(team);
-						player.setTeams(playerTeams);
+					if (!player.getTeams().contains(team)) {
+						player.getTeams().add(team);
 						player.merge();
 					}
 					
@@ -143,7 +138,7 @@ public class TeamFactory {
 			Long teamMatchId = HtmlDAO.parseIdFromAnchorElement(teamMatchElement);
 			TeamMatch teamMatch = TeamMatchFactory.build(teamMatchId);
 			System.out.println("Team Match in progress: " + teamMatch.getTeamMatchName() 
-								+ " Opponent: " + (team.equals(teamMatch.getChallengerTeam()) ? teamMatch.getResponderTeam() : teamMatch.getChallengerTeam())
+								+ " Opponent: " + (team.getTeamName().equals(teamMatch.getChallengerTeam().getTeamName()) ? teamMatch.getResponderTeam().getTeamName() : teamMatch.getChallengerTeam().getTeamName())
 								+ " Started: " + dateFormat.format(teamMatch.getStartDate()));
 		}
 		
@@ -164,7 +159,8 @@ public class TeamFactory {
 				Long teamMatchId = HtmlDAO.parseIdFromAnchorElement(teamMatchElement);
 				TeamMatch teamMatch = TeamMatchFactory.build(teamMatchId);
 				
-				if (existingTeamMatches.contains(teamMatch) || minStartDate.after(teamMatch.getStartDate())) {
+				if (teamMatch.getEndDate() != null && // allow update of team matches where parse error encountered
+						(existingTeamMatches.contains(teamMatch) || minStartDate.after(teamMatch.getStartDate()))) {
 					System.out.println("Stopping at team match " + teamMatch.getTeamMatchName() 
 										+ " id " + teamMatch.getTeamMatchId()
 										+ " Started: " + dateFormat.format(teamMatch.getStartDate()));
@@ -172,7 +168,7 @@ public class TeamFactory {
 					break;
 				} else {
 					System.out.println("Team Match finished: " + teamMatch.getTeamMatchName() 
-							+ " Opponent: " + (team.equals(teamMatch.getChallengerTeam()) ? teamMatch.getResponderTeam() : teamMatch.getChallengerTeam())
+							+ " Opponent: " + (team.getTeamName().equals(teamMatch.getChallengerTeam().getTeamName()) ? teamMatch.getResponderTeam().getTeamName() : teamMatch.getChallengerTeam().getTeamName())
 							+ " Started: " + dateFormat.format(teamMatch.getStartDate())
 							+ " Ended: " + dateFormat.format(teamMatch.getEndDate()));
 				}

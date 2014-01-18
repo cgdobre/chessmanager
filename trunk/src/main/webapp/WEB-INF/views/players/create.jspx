@@ -7,7 +7,7 @@
         <field:input field="onlineRating" id="c_ro_progsquad_chessmanager_model_Player_onlineRating" min="0" required="true" validationMessageCode="field_invalid_integer" z="ZRKeMJc2Vgee+CWl4WYnhWcIBAI="/>
         <field:input field="timeout" id="c_ro_progsquad_chessmanager_model_Player_timeout" max="100" min="0" required="true" validationMessageCode="field_invalid_integer" z="eIYTLZ2QhQR+Ajs3HyGbXAuV1/U="/>
         <field:input field="totalGames" id="c_ro_progsquad_chessmanager_model_Player_totalGames" required="true" z="Wxi3hwh5Ofa+AeDW9AvrzRmZ3yQ="/>
-        <field:datetime dateTimePattern="${player_membersince_date_format}" field="memberSince" id="c_ro_progsquad_chessmanager_model_Player_memberSince" past="true" required="true" z="5TtFSJJDJtxPo4Cbf2nS8siDNxQ="/>
+        <field:datetime dateTimePattern="${player_membersince_date_format}" field="memberSince" id="c_ro_progsquad_chessmanager_model_Player_memberSince" past="true" z="Di9WwHfEGwKI1iRWJ4dS9wzGUXw="/>
         <field:datetime dateTimePattern="${player_lastupdate_date_format}" field="lastUpdate" id="c_ro_progsquad_chessmanager_model_Player_lastUpdate" required="true" z="WiK5YMXyr9Y8kcnpGfcKhjWX89E="/>
         <field:input field="country" id="c_ro_progsquad_chessmanager_model_Player_country" required="true" z="ywa1F5yU86cIf/nFchW+4ltyp2U="/>
         <field:select field="teams" id="c_ro_progsquad_chessmanager_model_Player_teams" itemValue="id" items="${teams}" multiple="true" path="/teams" z="UQUS28Xdha2Tjtw8ek0SkoqFgJs="/>

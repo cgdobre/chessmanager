@@ -100,20 +100,28 @@ public class GameFactory {
 	 */
 	private static void parseGameResult(Game game, Element resultElement) throws ParseException {
 		if (resultElement == null) {
+			if (game.getEndDate() != null) {
+				throw new ParseException("resultElement is null while end date is notnull for game " + game.getGameId(), 0);
+			}
 			game.setEndDate(null); // game in progress
 			game.setWinner(null);
 		} else if (resultElement.text().contains("won")) {
 			String winner = resultElement.text().substring(0, resultElement.text().indexOf("won")).trim();
-			game.setWinner(Player.findPlayersByUsernameEquals(winner).getSingleResult());
+			Player winningPlayer = Player.findPlayersByUsernameEquals(winner).getSingleResult();
+			game.setWinner(winningPlayer);
 			if (resultElement.text().contains("on time")) {
 				game.setWonOnTime(true);
 			} else {
 				game.setWonOnTime(false);
 			}
-			game.setEndDate(Calendar.getInstance().getTime());
+			if (game.getEndDate() == null) {
+				game.setEndDate(Calendar.getInstance().getTime());
+			}
 		} else if (resultElement.text().contains("drawn")) {
 			game.setWinner(null);
-			game.setEndDate(Calendar.getInstance().getTime());
+			if (game.getEndDate() == null) {
+				game.setEndDate(Calendar.getInstance().getTime());
+			}
 		} else {
 			throw new ParseException("Unrecognized result <" + resultElement.text() + "> for game " + game.getGameId(), 0);
 		}
