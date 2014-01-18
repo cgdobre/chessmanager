@@ -6,6 +6,8 @@ package ro.progsquad.chessmanager.factories;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -44,6 +46,8 @@ public class PlayerFactory {
 			parseGroupCount(player, page);
 			parseOnlineChessStats(player, page);
 			
+			player.setLastUpdate(Calendar.getInstance().getTime());
+			
 			player.merge();
 			
 		} catch (EmptyResultDataAccessException e) {
@@ -57,6 +61,9 @@ public class PlayerFactory {
 			// get and validate player profile page
 			if (page.select("h1:containsOwn(Member Account Closed)").first() != null) {
 				player.setIsDisabled(true);
+				Date fakeMemberSinceDate = Calendar.getInstance().getTime();
+				fakeMemberSinceDate.setTime(fakeMemberSinceDate.getTime() - 600 * 1000); // ensure it's in the past
+				player.setMemberSince(fakeMemberSinceDate);
 				player.persist();
 				return player;
 			}
@@ -73,7 +80,8 @@ public class PlayerFactory {
 										 .parent();
 			String memberSinceString = aboutMeElement.text();
 			memberSinceString = memberSinceString.substring(memberSinceString.indexOf(":") + 1).trim();
-			player.setMemberSince(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).parse(memberSinceString));
+			Date memberSince = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).parse(memberSinceString);
+			player.setMemberSince(memberSince);
 			
 			player.persist();
 		}

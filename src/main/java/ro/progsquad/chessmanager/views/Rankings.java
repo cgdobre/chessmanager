@@ -61,8 +61,8 @@ public class Rankings {
 		attributesMap.put(VICTORIES_KEY, victories + "");
 		attributesMap.put(DRAWS_KEY, draws + "");
 		attributesMap.put(LOSSES_KEY, losses + "");
-		attributesMap.put(SCORE_KEY, (victories + draws / 2) + "" + (draws % 2 == 1 ? ",5" : ""));
 		attributesMap.put(TIMEOUT_COUNT_KEY, timeouts + "");
+		attributesMap.put(SCORE_KEY, (victories + draws / 2) + "" + (draws % 2 == 1 ? ",5" : ""));
 		attributesMap.put(LAST_UPDATE_KEY, new SimpleDateFormat("yyyy.MM.dd_HH:mm:ss").format(Calendar.getInstance().getTime()));
 		
 		return attributesMap;
