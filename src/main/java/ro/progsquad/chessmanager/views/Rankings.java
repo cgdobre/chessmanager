@@ -26,6 +26,7 @@ public class Rankings {
 	public static final String DRAWS_KEY = "draws";
 	public static final String LOSSES_KEY = "losses";
 	public static final String SCORE_KEY = "score";
+	public static final String MONTHLY_SCORE_KEY = "monthlyscore";
 	public static final String TIMEOUT_COUNT_KEY = "timeouts";
 	public static final String LAST_UPDATE_KEY = "lastupdate";
 	
@@ -40,15 +41,25 @@ public class Rankings {
 		int draws = 0;
 		int losses = 0;
 		int timeouts = 0;
+		float monthlyScore = 0;
 		for (Game game : player.getGames()) {
+			boolean isFromThisMonth = false;
 			if (game.getEndDate() == null) {
 				gamesInProgress++;
 				continue;
+			} else if (game.getEndDate().getMonth() == Calendar.getInstance().getTime().getMonth()) {
+				isFromThisMonth = true;
 			}
 			if (game.getWinner() == null) {
 				draws++;
+				if (isFromThisMonth) {
+					monthlyScore += 0.5;
+				}
 			} else if (player.equals(game.getWinner())) {
 				victories++;
+				if (isFromThisMonth) {
+					monthlyScore += 1;
+				}
 			} else {
 				losses++;
 				if (game.getWonOnTime()) {
@@ -63,6 +74,7 @@ public class Rankings {
 		attributesMap.put(LOSSES_KEY, losses + "");
 		attributesMap.put(TIMEOUT_COUNT_KEY, timeouts + "");
 		attributesMap.put(SCORE_KEY, (victories + draws / 2) + "" + (draws % 2 == 1 ? ",5" : ""));
+		attributesMap.put(MONTHLY_SCORE_KEY, (monthlyScore + "").replace('.', ','));
 		attributesMap.put(LAST_UPDATE_KEY, new SimpleDateFormat("yyyy.MM.dd_HH:mm:ss").format(Calendar.getInstance().getTime()));
 		
 		return attributesMap;
