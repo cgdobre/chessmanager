@@ -3,11 +3,20 @@
  */
 package ro.progsquad.chessmanager.views;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.gdata.data.spreadsheet.ListEntry;
+import com.google.gdata.util.ServiceException;
+
+import ro.progsquad.chessmanager.ChessManager;
+import ro.progsquad.chessmanager.dao.GoogleSheetDAO;
 import ro.progsquad.chessmanager.model.Game;
 import ro.progsquad.chessmanager.model.Player;
 
@@ -29,8 +38,11 @@ public class Rankings {
 	public static final String MONTHLY_SCORE_KEY = "monthlyscore";
 	public static final String TIMEOUT_COUNT_KEY = "timeouts";
 	public static final String LAST_UPDATE_KEY = "lastupdate";
+	public static final String LAST_SCORE = "lastscore";
 	
-	public static Map<String, String> asRankingMap(Player player) {
+	public static Map<String, String> asRankingMap(Player player) throws NumberFormatException, IOException, ServiceException {
+		System.out.println("Calculate rankings for user " + player.getUsername());
+		
 		Map<String, String> attributesMap = new HashMap<String, String>();
 		attributesMap.put(USERNAME_KEY, player.getUsername());
 		attributesMap.put(ONLINE_RATING_KEY, player.getOnlineRating() + "");
@@ -41,25 +53,15 @@ public class Rankings {
 		int draws = 0;
 		int losses = 0;
 		int timeouts = 0;
-		float monthlyScore = 0;
 		for (Game game : player.getGames()) {
-			boolean isFromThisMonth = false;
 			if (game.getEndDate() == null) {
 				gamesInProgress++;
 				continue;
-			} else if (game.getEndDate().getMonth() == Calendar.getInstance().getTime().getMonth()) {
-				isFromThisMonth = true;
 			}
 			if (game.getWinner() == null) {
 				draws++;
-				if (isFromThisMonth) {
-					monthlyScore += 0.5;
-				}
 			} else if (player.equals(game.getWinner())) {
 				victories++;
-				if (isFromThisMonth) {
-					monthlyScore += 1;
-				}
 			} else {
 				losses++;
 				if (game.getWonOnTime()) {
@@ -68,13 +70,19 @@ public class Rankings {
 			}
 		}
 		
+		List<ListEntry> rankings = GoogleSheetDAO.getInstance(ChessManager.CHESS_MANAGER_WORKBOOK_NAME, Rankings.SHEET_NAME)
+				.query(Rankings.USERNAME_KEY + "=\"" + player.getUsername() + "\"");
+		double lastScore = rankings.isEmpty() || StringUtils.isEmpty(rankings.get(0).getCustomElements().getValue(LAST_SCORE)) ? 0 
+				: Double.parseDouble(rankings.get(0).getCustomElements().getValue(LAST_SCORE).replace(',', '.'));
+		double currentScore = (victories + draws / 2) + (draws % 2 == 1 ? 0.5 : 0);
+		
 		attributesMap.put(IN_PROGRESS_KEY, gamesInProgress + "");
 		attributesMap.put(VICTORIES_KEY, victories + "");
 		attributesMap.put(DRAWS_KEY, draws + "");
 		attributesMap.put(LOSSES_KEY, losses + "");
 		attributesMap.put(TIMEOUT_COUNT_KEY, timeouts + "");
 		attributesMap.put(SCORE_KEY, (victories + draws / 2) + "" + (draws % 2 == 1 ? ",5" : ""));
-		attributesMap.put(MONTHLY_SCORE_KEY, (monthlyScore + "").replace('.', ','));
+		attributesMap.put(MONTHLY_SCORE_KEY, ((currentScore - lastScore) + "").replace('.', ','));
 		attributesMap.put(LAST_UPDATE_KEY, new SimpleDateFormat("yyyy.MM.dd_HH:mm:ss").format(Calendar.getInstance().getTime()));
 		
 		return attributesMap;

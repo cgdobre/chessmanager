@@ -29,6 +29,7 @@ import com.google.gdata.util.ServiceException;
 @Transactional
 public class ChessManager {
 	
+	public static final String CHESS_MANAGER_WORKBOOK_NAME = "ChessManager";
 	private static final String TEAM_PARAMETER = "-team";
 
 	public ChessManager() {}
@@ -66,7 +67,7 @@ public class ChessManager {
 	@Transactional
 	private void computeRankings(Team team) throws IOException, ServiceException {
 		System.out.println("Connecting to google and writing rankings");
-		GoogleSheetDAO dao = GoogleSheetDAO.getInstance("ChessManager", Rankings.SHEET_NAME);
+		GoogleSheetDAO dao = GoogleSheetDAO.getInstance(CHESS_MANAGER_WORKBOOK_NAME, Rankings.SHEET_NAME);
 		for (Player player : team.getMembers()) {
 			List<ListEntry> rankingEntries = dao.query(Rankings.USERNAME_KEY + "=\"" + player.getUsername() + "\"");
 			if (rankingEntries.isEmpty()) {
