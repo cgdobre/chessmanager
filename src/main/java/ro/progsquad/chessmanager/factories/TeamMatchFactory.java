@@ -44,6 +44,7 @@ public class TeamMatchFactory {
 				teamMatch.setEndDate(null); // allow for update in case of parse exception
 				teamMatch.merge();
 				System.err.println("Exception loading games for team match " + teamMatch.getTeamMatchName() + ":\n" + e2);
+				e2.printStackTrace();
 			}
 		} catch (EmptyResultDataAccessException e) {
 			// connect
