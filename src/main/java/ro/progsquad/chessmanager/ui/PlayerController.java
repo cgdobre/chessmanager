@@ -42,14 +42,14 @@ public class PlayerController {
 		GoogleSheetDAO dao;
 		List<String> rankedUserNames = new ArrayList<String>();
 		try {
-			dao = GoogleSheetDAO.getInstance("ChessManager", Rankings.SHEET_NAME);
+			dao = GoogleSheetDAO.getInstance("ChessManager", Rankings.SHEET_NAME + "-" + team.getTeamName());
 		
 			for (Player player : team.getMembers()) {
 				List<ListEntry> rankingEntries = dao.query(Rankings.USERNAME_KEY + "=\"" + player.getUsername() + "\"");
 				if (rankingEntries.isEmpty()) {
-					dao.addNewEntry(Rankings.asRankingMap(player));
+					dao.addNewEntry(Rankings.asRankingMap(player, team));
 				} else {
-					dao.update(rankingEntries.get(0), Rankings.asRankingMap(player));
+					dao.update(rankingEntries.get(0), Rankings.asRankingMap(player, team));
 				}
 				rankedUserNames.add(player.getUsername());
 			}
