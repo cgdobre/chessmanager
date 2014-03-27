@@ -6,7 +6,6 @@ package ro.progsquad.chessmanager.factories;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
@@ -29,7 +28,6 @@ import ro.progsquad.chessmanager.model.TeamMatch;
 public class TeamFactory {
 	
 	private static final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
-	private static final String MIN_START_DATE = "Nov 1, 2013";
 	
 	public static final String GROUP_MEMBERS_BASE_URL = "/groups/membersearch?";
 	public static final String GROUP_MEMBERS_URL = GROUP_MEMBERS_BASE_URL + "allnew=1&id=";
@@ -123,7 +121,6 @@ public class TeamFactory {
 
 	@Transactional
 	public static void loadTeamMatches(Team team) throws IOException, ParseException {
-		Date minStartDate = dateFormat.parse(MIN_START_DATE);
 		Element page;
 		Elements teamMatchElements;
 		Iterator<Element> teamMatchElementsIterator;
@@ -143,7 +140,6 @@ public class TeamFactory {
 		}
 		
 		// parse match archive
-		Set<TeamMatch> existingTeamMatches = team.getTeamMatches();
 		String pageUrl;
 		String nextPageUrl = HtmlDAO.BASE_URL + GROUP_MATCH_ARCHIVE_URL + team.getTeamId();
 		boolean finished = false;
@@ -159,19 +155,10 @@ public class TeamFactory {
 				Long teamMatchId = HtmlDAO.parseIdFromAnchorElement(teamMatchElement);
 				TeamMatch teamMatch = TeamMatchFactory.build(teamMatchId);
 				
-				if (teamMatch.getEndDate() != null && // allow update of team matches where parse error encountered
-						(existingTeamMatches.contains(teamMatch) || minStartDate.after(teamMatch.getStartDate()))) {
-					System.out.println("Stopping at team match " + teamMatch.getTeamMatchName() 
-										+ " id " + teamMatch.getTeamMatchId()
-										+ " Started: " + dateFormat.format(teamMatch.getStartDate()));
-					finished = true;
-					break;
-				} else {
-					System.out.println("Team Match finished: " + teamMatch.getTeamMatchName() 
-							+ " Opponent: " + (team.getTeamName().equals(teamMatch.getChallengerTeam().getTeamName()) ? teamMatch.getResponderTeam().getTeamName() : teamMatch.getChallengerTeam().getTeamName())
-							+ " Started: " + dateFormat.format(teamMatch.getStartDate())
-							+ " Ended: " + dateFormat.format(teamMatch.getEndDate()));
-				}
+				System.out.println("Team Match finished: " + teamMatch.getTeamMatchName() 
+						+ " Opponent: " + (team.getTeamName().equals(teamMatch.getChallengerTeam().getTeamName()) ? teamMatch.getResponderTeam().getTeamName() : teamMatch.getChallengerTeam().getTeamName())
+						+ " Started: " + dateFormat.format(teamMatch.getStartDate())
+						+ " Ended: " + dateFormat.format(teamMatch.getEndDate()));
 			}
 			
 			if (!finished) {
