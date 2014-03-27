@@ -106,7 +106,7 @@ public class GameFactory {
 			game.setEndDate(null); // game in progress
 			game.setWinner(null);
 		} else if (resultElement.text().contains("won")) {
-			String winner = resultElement.text().substring(0, resultElement.text().indexOf("won")).trim();
+			String winner = resultElement.text().substring(0, resultElement.text().indexOf(" won")).trim();
 			Player winningPlayer = Player.findPlayersByUsernameEquals(winner).getSingleResult();
 			game.setWinner(winningPlayer);
 			if (resultElement.text().contains("on time")) {
