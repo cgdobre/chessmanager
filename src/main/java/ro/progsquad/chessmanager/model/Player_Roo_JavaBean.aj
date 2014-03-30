@@ -115,4 +115,12 @@ privileged aspect Player_Roo_JavaBean {
         this.isDisabled = isDisabled;
     }
     
+    public String Player.getCurrentGamesNo() {
+        return this.currentGamesNo;
+    }
+    
+    public void Player.setCurrentGamesNo(String currentGamesNo) {
+        this.currentGamesNo = currentGamesNo;
+    }
+    
 }

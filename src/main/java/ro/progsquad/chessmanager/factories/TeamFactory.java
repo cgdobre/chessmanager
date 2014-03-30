@@ -45,12 +45,20 @@ public class TeamFactory {
 			String teamMatchesUrl = HtmlDAO.BASE_URL + GROUP_MATCHES_URL + teamName + "?show_all_current=1";
 			Element page = HtmlDAO.getBody(teamMatchesUrl);
 			
-			// build team
-			team = new Team();
-			team.setTeamName(teamName);
+			// get team id
 			Long teamId = HtmlDAO.parseIdFromAnchorElement(page.select(" a[href^=" + GROUP_MEMBERS_BASE_URL + "]").first());
-			team.setTeamId(teamId);
-			team.persist();
+			
+			try {
+				team = Team.findTeamsByTeamIdEquals(teamId).getSingleResult();
+				team.setTeamName(teamName);
+				team.merge();
+			} catch (EmptyResultDataAccessException e2) {
+				// build team
+				team = new Team();
+				team.setTeamName(teamName);
+				team.setTeamId(teamId);
+				team.persist();
+			}
 		}
 		
 		if (includeTeamMatchesAndPlayers) {
@@ -94,7 +102,8 @@ public class TeamFactory {
 					System.out.println("Team Player: " + player.getUsername() 
 										+ ", OR: " + player.getOnlineRating() 
 										+ " TO: " + player.getTimeout()
-										+ " #G: " + player.getTotalGames());
+										+ " #G: " + player.getTotalGames()
+										+ " #CG: " + player.getCurrentGamesNo());
 				}
 			}
 			
@@ -167,5 +176,4 @@ public class TeamFactory {
 			
 		} while (!finished && nextPageUrl != null && !nextPageUrl.equals(pageUrl));
 	}
-	
 }

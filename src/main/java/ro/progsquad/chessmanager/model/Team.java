@@ -15,7 +15,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord(finders = { "findTeamsByTeamNameEquals", "findTeamsByMembers", "findTeamsByMembersAndTeamNameEquals" })
+@RooJpaActiveRecord(finders = { "findTeamsByTeamNameEquals", "findTeamsByMembers", "findTeamsByMembersAndTeamNameEquals", "findTeamsByTeamIdEquals" })
 public class Team {
 
     @NotNull
@@ -23,7 +23,6 @@ public class Team {
     private Long teamId;
 
     @NotNull
-    @Column(unique = true)
     private String teamName;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "teams")
