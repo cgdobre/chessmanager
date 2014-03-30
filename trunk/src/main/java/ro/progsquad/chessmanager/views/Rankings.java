@@ -42,6 +42,8 @@ public class Rankings {
 	public static final String TIMEOUT_COUNT_KEY = "timeouts";
 	public static final String LAST_UPDATE_KEY = "lastupdate";
 	public static final String LAST_SCORE = "lastscore";
+	public static final String ONLINE_CHESS_STATS = "onlinechessstats";
+	public static final String CURRENT_GAMES_NO = "CurrentGamesNo";
 	
 	public static Map<String, String> asRankingMap(Player player, Team team) throws NumberFormatException, IOException, ServiceException {
 		System.out.println("Calculate rankings for user " + player.getUsername() + " in team " + team.getTeamName());
@@ -97,6 +99,8 @@ public class Rankings {
 		attributesMap.put(SCORE_KEY, (victories + draws / 2) + "" + (draws % 2 == 1 ? ",5" : ""));
 		attributesMap.put(MONTHLY_SCORE_KEY, ((currentScore - lastScore) + "").replace('.', ','));
 		attributesMap.put(LAST_UPDATE_KEY, new SimpleDateFormat("yyyy.MM.dd_HH:mm:ss").format(Calendar.getInstance().getTime()));
+		attributesMap.put(ONLINE_CHESS_STATS, player.getTotalGames());
+		attributesMap.put(CURRENT_GAMES_NO, player.getCurrentGamesNo());
 		
 		return attributesMap;
 	}

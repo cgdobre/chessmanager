@@ -46,6 +46,14 @@ privileged aspect Team_Roo_Finder {
         return q;
     }
     
+    public static TypedQuery<Team> Team.findTeamsByTeamIdEquals(Long teamId) {
+        if (teamId == null) throw new IllegalArgumentException("The teamId argument is required");
+        EntityManager em = Team.entityManager();
+        TypedQuery<Team> q = em.createQuery("SELECT o FROM Team AS o WHERE o.teamId = :teamId", Team.class);
+        q.setParameter("teamId", teamId);
+        return q;
+    }
+    
     public static TypedQuery<Team> Team.findTeamsByTeamNameEquals(String teamName) {
         if (teamName == null || teamName.length() == 0) throw new IllegalArgumentException("The teamName argument is required");
         EntityManager em = Team.entityManager();

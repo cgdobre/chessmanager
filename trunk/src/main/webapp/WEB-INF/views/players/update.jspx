@@ -16,5 +16,6 @@
         <field:simple field="wonGames" id="c_ro_progsquad_chessmanager_model_Player_wonGames" messageCode="entity_reference_not_managed" messageCodeAttribute="Game" z="zQ0P5F0iZESScrkSF/jpq5PB5ic="/>
         <field:input field="groupCount" id="c_ro_progsquad_chessmanager_model_Player_groupCount" min="0" required="true" validationMessageCode="field_invalid_integer" z="ccVZpm4MEWdW390WUKPp01svqf4="/>
         <field:checkbox field="isDisabled" id="c_ro_progsquad_chessmanager_model_Player_isDisabled" z="fsuZn59GeerMi4PbZZcHsFtiWVY="/>
+        <field:input field="currentGamesNo" id="c_ro_progsquad_chessmanager_model_Player_currentGamesNo" z="a0e1P7sIQ2wc7CN+cg2+5S6Kspo="/>
     </form:update>
 </div>

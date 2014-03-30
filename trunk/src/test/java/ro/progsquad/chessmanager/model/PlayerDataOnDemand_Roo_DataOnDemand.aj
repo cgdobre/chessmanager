@@ -28,6 +28,7 @@ privileged aspect PlayerDataOnDemand_Roo_DataOnDemand {
     public Player PlayerDataOnDemand.getNewTransientPlayer(int index) {
         Player obj = new Player();
         setCountry(obj, index);
+        setCurrentGamesNo(obj, index);
         setGroupCount(obj, index);
         setIsDisabled(obj, index);
         setLastUpdate(obj, index);
@@ -42,6 +43,11 @@ privileged aspect PlayerDataOnDemand_Roo_DataOnDemand {
     public void PlayerDataOnDemand.setCountry(Player obj, int index) {
         String country = "International_" + index;
         obj.setCountry(country);
+    }
+    
+    public void PlayerDataOnDemand.setCurrentGamesNo(Player obj, int index) {
+        String currentGamesNo = "currentGamesNo_" + index;
+        obj.setCurrentGamesNo(currentGamesNo);
     }
     
     public void PlayerDataOnDemand.setGroupCount(Player obj, int index) {

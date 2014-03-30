@@ -110,6 +110,18 @@ public class PlayerFactory {
 				player.setTotalGames(totalGames + " " + winsLossesDraws);
 			}
 		}
+		
+		// parse # of current games
+		Element gamesElement = page.getElementById("profile-tabs").parent()
+				 				   .getElementsByAttributeValue("class", "section-content section-content-3").first()
+				 				   .getElementsByTag("div").first();
+		if (gamesElement == null || gamesElement.getElementsByAttributeValue("class", "section-title").first() == null) {
+			player.setCurrentGamesNo("0");
+		} else {
+			String currentGamesString = gamesElement.getElementsByAttributeValue("class", "section-title").first().text();
+			currentGamesString = currentGamesString.substring(currentGamesString.indexOf("(") + 1, currentGamesString.indexOf(")"));
+			player.setCurrentGamesNo(currentGamesString);
+		}
 	}
 
 	/**

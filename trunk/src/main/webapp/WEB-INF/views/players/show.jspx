@@ -13,5 +13,6 @@
         <field:display field="teams" id="s_ro_progsquad_chessmanager_model_Player_teams" object="${player}" z="UYQkgs6qN96I6+L9REvgRd1XItc="/>
         <field:display field="groupCount" id="s_ro_progsquad_chessmanager_model_Player_groupCount" object="${player}" z="RMmmX/bfEu5xfY6CtT9EPr6s1lA="/>
         <field:display field="isDisabled" id="s_ro_progsquad_chessmanager_model_Player_isDisabled" object="${player}" z="rfnA2nJYVrwvKmMx5nLkdFCu4qA="/>
+        <field:display field="currentGamesNo" id="s_ro_progsquad_chessmanager_model_Player_currentGamesNo" object="${player}" z="+Pk5XewC45Dz5v13v2T10TVPITg="/>
     </page:show>
 </div>

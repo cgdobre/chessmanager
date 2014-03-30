@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
@@ -15,7 +14,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -79,53 +77,52 @@ public class Player {
 
     @NotNull
     private Boolean isDisabled = false;
-    
+
     public String toString() {
-    	Player player = new Player();
-    	player.setId(this.getId());
-    	player.setVersion(this.getVersion());
-    	player.setCountry(this.getCountry());
-    	player.setGroupCount(this.getGroupCount());
-    	player.setIsDisabled(getIsDisabled());
-    	player.setLastUpdate(getLastUpdate());
-    	player.setMemberSince(getMemberSince());
-    	player.setOnlineRating(getOnlineRating());
-    	player.setTimeout(getTimeout());
-    	player.setTotalGames(getTotalGames());
-    	player.setUsername(getUsername());
-    	
-    	Set<Game> games = new HashSet<Game>();
-    	for (Game game : getBlackGames()) {
-    		Game gameStub = new Game();
-    		gameStub.setId(game.getId());
-    		games.add(gameStub);
-    	}
-    	player.setBlackGames(games);
-    	
-    	games = new HashSet<Game>();
-    	for (Game game : getWhiteGames()) {
-    		Game gameStub = new Game();
-    		gameStub.setId(game.getId());
-    		games.add(gameStub);
-    	}
-    	player.setWhiteGames(games);
-    	
-    	games = new HashSet<Game>();
-    	for (Game game : getWonGames()) {
-    		Game gameStub = new Game();
-    		gameStub.setId(game.getId());
-    		games.add(gameStub);
-    	}
-    	player.setWonGames(games);
-    	
-    	Set<Team> teams = new HashSet<Team>();
-    	for (Team team : getTeams()) {
-    		Team teamStub = new Team();
-    		teamStub.setId(team.getId());
-    		teams.add(teamStub);
-    	}
-    	player.setTeams(teams);
-    	
+        Player player = new Player();
+        player.setId(this.getId());
+        player.setVersion(this.getVersion());
+        player.setCountry(this.getCountry());
+        player.setGroupCount(this.getGroupCount());
+        player.setIsDisabled(getIsDisabled());
+        player.setLastUpdate(getLastUpdate());
+        player.setMemberSince(getMemberSince());
+        player.setOnlineRating(getOnlineRating());
+        player.setTimeout(getTimeout());
+        player.setTotalGames(getTotalGames());
+        player.setUsername(getUsername());
+        Set<Game> games = new HashSet<Game>();
+        for (Game game : getBlackGames()) {
+            Game gameStub = new Game();
+            gameStub.setId(game.getId());
+            games.add(gameStub);
+        }
+        player.setBlackGames(games);
+        games = new HashSet<Game>();
+        for (Game game : getWhiteGames()) {
+            Game gameStub = new Game();
+            gameStub.setId(game.getId());
+            games.add(gameStub);
+        }
+        player.setWhiteGames(games);
+        games = new HashSet<Game>();
+        for (Game game : getWonGames()) {
+            Game gameStub = new Game();
+            gameStub.setId(game.getId());
+            games.add(gameStub);
+        }
+        player.setWonGames(games);
+        Set<Team> teams = new HashSet<Team>();
+        for (Team team : getTeams()) {
+            Team teamStub = new Team();
+            teamStub.setId(team.getId());
+            teams.add(teamStub);
+        }
+        player.setTeams(teams);
         return ReflectionToStringBuilder.toString(player, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
+    /**
+     */
+    private String currentGamesNo;
 }

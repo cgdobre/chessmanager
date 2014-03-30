@@ -38,6 +38,17 @@ privileged aspect TeamController_Roo_Controller_Finder {
         return "teams/list";
     }
     
+    @RequestMapping(params = { "find=ByTeamIdEquals", "form" }, method = RequestMethod.GET)
+    public String TeamController.findTeamsByTeamIdEqualsForm(Model uiModel) {
+        return "teams/findTeamsByTeamIdEquals";
+    }
+    
+    @RequestMapping(params = "find=ByTeamIdEquals", method = RequestMethod.GET)
+    public String TeamController.findTeamsByTeamIdEquals(@RequestParam("teamId") Long teamId, Model uiModel) {
+        uiModel.addAttribute("teams", Team.findTeamsByTeamIdEquals(teamId).getResultList());
+        return "teams/list";
+    }
+    
     @RequestMapping(params = { "find=ByTeamNameEquals", "form" }, method = RequestMethod.GET)
     public String TeamController.findTeamsByTeamNameEqualsForm(Model uiModel) {
         return "teams/findTeamsByTeamNameEquals";
