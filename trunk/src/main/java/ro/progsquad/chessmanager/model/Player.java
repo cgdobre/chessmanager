@@ -4,16 +4,20 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -122,7 +126,27 @@ public class Player {
         return ReflectionToStringBuilder.toString(player, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
-    /**
-     */
     private String currentGamesNo;
+    
+    public static TypedQuery<Player> findPlayersByTeams(Set<Team> teams, String sortFieldName, String sortOrder) {
+        if (teams == null) throw new IllegalArgumentException("The teams argument is required");
+        EntityManager em = Player.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Player AS o WHERE");
+        for (int i = 0; i < teams.size(); i++) {
+            if (i > 0) queryBuilder.append(" AND");
+            queryBuilder.append(" :teams_item").append(i).append(" MEMBER OF o.teams");
+        }
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+        	queryBuilder.append(" ORDER BY " + sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" " + sortOrder);
+            }
+        }
+        TypedQuery<Player> q = em.createQuery(queryBuilder.toString(), Player.class);
+        int teamsIndex = 0;
+        for (Team _team: teams) {
+            q.setParameter("teams_item" + teamsIndex++, _team);
+        }
+        return q;
+    }
 }

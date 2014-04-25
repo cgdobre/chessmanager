@@ -47,15 +47,15 @@ privileged aspect PlayerController_Roo_Controller {
     }
     
     @RequestMapping(produces = "text/html")
-    public String PlayerController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    public String PlayerController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-            uiModel.addAttribute("players", Player.findPlayerEntries(firstResult, sizeNo));
+            uiModel.addAttribute("players", Player.findPlayerEntries(firstResult, sizeNo, sortFieldName, sortOrder));
             float nrOfPages = (float) Player.countPlayers() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
-            uiModel.addAttribute("players", Player.findAllPlayers());
+            uiModel.addAttribute("players", Player.findAllPlayers(sortFieldName, sortOrder));
         }
         addDateTimeFormatPatterns(uiModel);
         return "players/list";

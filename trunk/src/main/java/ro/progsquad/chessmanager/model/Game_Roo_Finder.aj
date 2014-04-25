@@ -9,10 +9,33 @@ import ro.progsquad.chessmanager.model.Game;
 
 privileged aspect Game_Roo_Finder {
     
+    public static Long Game.countFindGamesByGameIdEquals(Long gameId) {
+        if (gameId == null) throw new IllegalArgumentException("The gameId argument is required");
+        EntityManager em = Game.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Game AS o WHERE o.gameId = :gameId", Long.class);
+        q.setParameter("gameId", gameId);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<Game> Game.findGamesByGameIdEquals(Long gameId) {
         if (gameId == null) throw new IllegalArgumentException("The gameId argument is required");
         EntityManager em = Game.entityManager();
         TypedQuery<Game> q = em.createQuery("SELECT o FROM Game AS o WHERE o.gameId = :gameId", Game.class);
+        q.setParameter("gameId", gameId);
+        return q;
+    }
+    
+    public static TypedQuery<Game> Game.findGamesByGameIdEquals(Long gameId, String sortFieldName, String sortOrder) {
+        if (gameId == null) throw new IllegalArgumentException("The gameId argument is required");
+        EntityManager em = Game.entityManager();
+        String jpaQuery = "SELECT o FROM Game AS o WHERE o.gameId = :gameId";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Game> q = em.createQuery(jpaQuery, Game.class);
         q.setParameter("gameId", gameId);
         return q;
     }

@@ -21,8 +21,16 @@ privileged aspect TeamController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByMembers", method = RequestMethod.GET)
-    public String TeamController.findTeamsByMembers(@RequestParam("members") Set<Player> members, Model uiModel) {
-        uiModel.addAttribute("teams", Team.findTeamsByMembers(members).getResultList());
+    public String TeamController.findTeamsByMembers(@RequestParam("members") Set<Player> members, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("teams", Team.findTeamsByMembers(members, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Team.countFindTeamsByMembers(members) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("teams", Team.findTeamsByMembers(members, sortFieldName, sortOrder).getResultList());
+        }
         return "teams/list";
     }
     
@@ -33,8 +41,16 @@ privileged aspect TeamController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByMembersAndTeamNameEquals", method = RequestMethod.GET)
-    public String TeamController.findTeamsByMembersAndTeamNameEquals(@RequestParam("members") Set<Player> members, @RequestParam("teamName") String teamName, Model uiModel) {
-        uiModel.addAttribute("teams", Team.findTeamsByMembersAndTeamNameEquals(members, teamName).getResultList());
+    public String TeamController.findTeamsByMembersAndTeamNameEquals(@RequestParam("members") Set<Player> members, @RequestParam("teamName") String teamName, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("teams", Team.findTeamsByMembersAndTeamNameEquals(members, teamName, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Team.countFindTeamsByMembersAndTeamNameEquals(members, teamName) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("teams", Team.findTeamsByMembersAndTeamNameEquals(members, teamName, sortFieldName, sortOrder).getResultList());
+        }
         return "teams/list";
     }
     
@@ -44,8 +60,16 @@ privileged aspect TeamController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByTeamIdEquals", method = RequestMethod.GET)
-    public String TeamController.findTeamsByTeamIdEquals(@RequestParam("teamId") Long teamId, Model uiModel) {
-        uiModel.addAttribute("teams", Team.findTeamsByTeamIdEquals(teamId).getResultList());
+    public String TeamController.findTeamsByTeamIdEquals(@RequestParam("teamId") Long teamId, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("teams", Team.findTeamsByTeamIdEquals(teamId, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Team.countFindTeamsByTeamIdEquals(teamId) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("teams", Team.findTeamsByTeamIdEquals(teamId, sortFieldName, sortOrder).getResultList());
+        }
         return "teams/list";
     }
     
@@ -55,8 +79,16 @@ privileged aspect TeamController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByTeamNameEquals", method = RequestMethod.GET)
-    public String TeamController.findTeamsByTeamNameEquals(@RequestParam("teamName") String teamName, Model uiModel) {
-        uiModel.addAttribute("teams", Team.findTeamsByTeamNameEquals(teamName).getResultList());
+    public String TeamController.findTeamsByTeamNameEquals(@RequestParam("teamName") String teamName, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("teams", Team.findTeamsByTeamNameEquals(teamName, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Team.countFindTeamsByTeamNameEquals(teamName) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("teams", Team.findTeamsByTeamNameEquals(teamName, sortFieldName, sortOrder).getResultList());
+        }
         return "teams/list";
     }
     
