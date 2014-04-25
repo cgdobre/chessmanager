@@ -9,10 +9,33 @@ import ro.progsquad.chessmanager.model.TeamMatch;
 
 privileged aspect TeamMatch_Roo_Finder {
     
+    public static Long TeamMatch.countFindTeamMatchesByTeamMatchIdEquals(Long teamMatchId) {
+        if (teamMatchId == null) throw new IllegalArgumentException("The teamMatchId argument is required");
+        EntityManager em = TeamMatch.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM TeamMatch AS o WHERE o.teamMatchId = :teamMatchId", Long.class);
+        q.setParameter("teamMatchId", teamMatchId);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<TeamMatch> TeamMatch.findTeamMatchesByTeamMatchIdEquals(Long teamMatchId) {
         if (teamMatchId == null) throw new IllegalArgumentException("The teamMatchId argument is required");
         EntityManager em = TeamMatch.entityManager();
         TypedQuery<TeamMatch> q = em.createQuery("SELECT o FROM TeamMatch AS o WHERE o.teamMatchId = :teamMatchId", TeamMatch.class);
+        q.setParameter("teamMatchId", teamMatchId);
+        return q;
+    }
+    
+    public static TypedQuery<TeamMatch> TeamMatch.findTeamMatchesByTeamMatchIdEquals(Long teamMatchId, String sortFieldName, String sortOrder) {
+        if (teamMatchId == null) throw new IllegalArgumentException("The teamMatchId argument is required");
+        EntityManager em = TeamMatch.entityManager();
+        String jpaQuery = "SELECT o FROM TeamMatch AS o WHERE o.teamMatchId = :teamMatchId";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<TeamMatch> q = em.createQuery(jpaQuery, TeamMatch.class);
         q.setParameter("teamMatchId", teamMatchId);
         return q;
     }

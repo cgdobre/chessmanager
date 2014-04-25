@@ -14,6 +14,8 @@ privileged aspect Game_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Game.entityManager;
     
+    public static final List<String> Game.fieldNames4OrderClauseFilter = java.util.Arrays.asList("gameId", "white", "black", "winner", "wonOnTime", "timePerMove", "numberOfMoves", "startDate", "endDate", "teamMatch");
+    
     public static final EntityManager Game.entityManager() {
         EntityManager em = new Game().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect Game_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM Game o", Game.class).getResultList();
     }
     
+    public static List<Game> Game.findAllGames(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Game o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Game.class).getResultList();
+    }
+    
     public static Game Game.findGame(Long id) {
         if (id == null) return null;
         return entityManager().find(Game.class, id);
@@ -35,6 +48,17 @@ privileged aspect Game_Roo_Jpa_ActiveRecord {
     
     public static List<Game> Game.findGameEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Game o", Game.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<Game> Game.findGameEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Game o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Game.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

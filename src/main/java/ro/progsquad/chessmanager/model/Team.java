@@ -2,11 +2,15 @@ package ro.progsquad.chessmanager.model;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -70,4 +74,52 @@ public class Team {
         team.setResponderTeamMatches(matches);
         return ReflectionToStringBuilder.toString(team, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+    
+    public static TypedQuery<Team> findTeamsByMembers(Set<Player> members, String sortFieldName, String sortOrder) {
+        if (members == null) throw new IllegalArgumentException("The members argument is required");
+        EntityManager em = Team.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Team AS o WHERE");
+        for (int i = 0; i < members.size(); i++) {
+            if (i > 0) queryBuilder.append(" AND");
+            queryBuilder.append(" :members_item").append(i).append(" MEMBER OF o.members");
+        }
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+        	queryBuilder.append(" ORDER BY " + sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" " + sortOrder);
+            }
+        }
+        TypedQuery<Team> q = em.createQuery(queryBuilder.toString(), Team.class);
+        int membersIndex = 0;
+        for (Player _player: members) {
+            q.setParameter("members_item" + membersIndex++, _player);
+        }
+        return q;
+    }
+    
+    public static TypedQuery<Team> findTeamsByMembersAndTeamNameEquals(Set<Player> members, String teamName, String sortFieldName, String sortOrder) {
+        if (members == null) throw new IllegalArgumentException("The members argument is required");
+        if (teamName == null || teamName.length() == 0) throw new IllegalArgumentException("The teamName argument is required");
+        EntityManager em = Team.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Team AS o WHERE o.teamName = :teamName");
+        queryBuilder.append(" AND");
+        for (int i = 0; i < members.size(); i++) {
+            if (i > 0) queryBuilder.append(" AND");
+            queryBuilder.append(" :members_item").append(i).append(" MEMBER OF o.members");
+        }
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+        	queryBuilder.append(" ORDER BY " + sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" " + sortOrder);
+            }
+        }
+        TypedQuery<Team> q = em.createQuery(queryBuilder.toString(), Team.class);
+        int membersIndex = 0;
+        for (Player _player: members) {
+            q.setParameter("members_item" + membersIndex++, _player);
+        }
+        q.setParameter("teamName", teamName);
+        return q;
+    }
+    
 }

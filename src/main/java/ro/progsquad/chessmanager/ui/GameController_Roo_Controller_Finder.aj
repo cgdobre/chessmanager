@@ -18,8 +18,17 @@ privileged aspect GameController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByGameIdEquals", method = RequestMethod.GET)
-    public String GameController.findGamesByGameIdEquals(@RequestParam("gameId") Long gameId, Model uiModel) {
-        uiModel.addAttribute("games", Game.findGamesByGameIdEquals(gameId).getResultList());
+    public String GameController.findGamesByGameIdEquals(@RequestParam("gameId") Long gameId, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("games", Game.findGamesByGameIdEquals(gameId, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Game.countFindGamesByGameIdEquals(gameId) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("games", Game.findGamesByGameIdEquals(gameId, sortFieldName, sortOrder).getResultList());
+        }
+        addDateTimeFormatPatterns(uiModel);
         return "games/list";
     }
     

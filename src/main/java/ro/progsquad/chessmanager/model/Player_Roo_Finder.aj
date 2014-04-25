@@ -11,6 +11,30 @@ import ro.progsquad.chessmanager.model.Team;
 
 privileged aspect Player_Roo_Finder {
     
+    public static Long Player.countFindPlayersByTeams(Set<Team> teams) {
+        if (teams == null) throw new IllegalArgumentException("The teams argument is required");
+        EntityManager em = Player.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT COUNT(o) FROM Player AS o WHERE");
+        for (int i = 0; i < teams.size(); i++) {
+            if (i > 0) queryBuilder.append(" AND");
+            queryBuilder.append(" :teams_item").append(i).append(" MEMBER OF o.teams");
+        }
+        TypedQuery q = em.createQuery(queryBuilder.toString(), Long.class);
+        int teamsIndex = 0;
+        for (Team _team: teams) {
+            q.setParameter("teams_item" + teamsIndex++, _team);
+        }
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long Player.countFindPlayersByUsernameEquals(String username) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
+        EntityManager em = Player.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Player AS o WHERE o.username = :username", Long.class);
+        q.setParameter("username", username);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<Player> Player.findPlayersByTeams(Set<Team> teams) {
         if (teams == null) throw new IllegalArgumentException("The teams argument is required");
         EntityManager em = Player.entityManager();
@@ -31,6 +55,21 @@ privileged aspect Player_Roo_Finder {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
         EntityManager em = Player.entityManager();
         TypedQuery<Player> q = em.createQuery("SELECT o FROM Player AS o WHERE o.username = :username", Player.class);
+        q.setParameter("username", username);
+        return q;
+    }
+    
+    public static TypedQuery<Player> Player.findPlayersByUsernameEquals(String username, String sortFieldName, String sortOrder) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
+        EntityManager em = Player.entityManager();
+        String jpaQuery = "SELECT o FROM Player AS o WHERE o.username = :username";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Player> q = em.createQuery(jpaQuery, Player.class);
         q.setParameter("username", username);
         return q;
     }

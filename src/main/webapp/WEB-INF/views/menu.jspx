@@ -7,15 +7,15 @@
             <menu:item id="i_team_new" messageCode="global_menu_new" url="/teams?form" z="4tXqOwL6AGKXY3eI3MjIlHBiYRc="/>
             <menu:item id="i_team_list" messageCode="global_menu_list" url="/teams?page=1&amp;size=${empty param.size ? 10 : param.size}" z="e0UEGo6L31cC31D4lgkjPEbpROM="/>
             <menu:item id="fi_team_createbyteamname" messageCode="global_menu_find" url="/teams?find=createByTeamName&amp;form" z="user-managed"/>
-            <menu:item id="fi_team_members" messageCode="global_menu_find" url="/teams?find=ByMembers&amp;form" z="wHo1JZm/vMoW1rdK4vwyjC5VZ9c="/>
-            <menu:item id="fi_team_membersandteamnameequals" messageCode="global_menu_find" url="/teams?find=ByMembersAndTeamNameEquals&amp;form" z="2snEaHUFTEhGmgQ/WggbkSEAACc="/>
-            <menu:item id="fi_team_teamidequals" messageCode="global_menu_find" url="/teams?find=ByTeamIdEquals&amp;form" z="sQIPLq8ixUcC9cdV3AzqP8ACqcg="/>
-            <menu:item id="fi_team_teamnameequals" messageCode="global_menu_find" url="/teams?find=ByTeamNameEquals&amp;form" z="JkD/svnikMHpP1op+oqFD4NYg7g="/>
+            <menu:item id="fi_team_members" messageCode="global_menu_find" url="/teams?find=ByMembers&amp;form&amp;page=1&amp;size=${empty param.size ? 10 : param.size}" z="KJdtUDULmcTeuZqOt1hiMi4PgEc="/>
+            <menu:item id="fi_team_membersandteamnameequals" messageCode="global_menu_find" url="/teams?find=ByMembersAndTeamNameEquals&amp;form&amp;page=1&amp;size=${empty param.size ? 10 : param.size}" z="gQNdJJVFdzZLOGEFhlMTgf3/Tfw="/>
+            <menu:item id="fi_team_teamidequals" messageCode="global_menu_find" url="/teams?find=ByTeamIdEquals&amp;form&amp;page=1&amp;size=${empty param.size ? 10 : param.size}" z="WLgE1P84fSjVkXH+V93ZRN5WXfI="/>
+            <menu:item id="fi_team_teamnameequals" messageCode="global_menu_find" url="/teams?find=ByTeamNameEquals&amp;form&amp;page=1&amp;size=${empty param.size ? 10 : param.size}" z="7w7oSWSAwuNK18snbz469o+yWBU="/>
         </menu:category>
         <menu:category id="c_teammatch" z="j/1zb93ea1oRqQa0urGJTW4JQOg=">
             <menu:item id="i_teammatch_new" messageCode="global_menu_new" url="/teammatches?form" z="PCn2hpeRK4+pSd++dYdNNmJm7h4="/>
             <menu:item id="i_teammatch_list" messageCode="global_menu_list" url="/teammatches?page=1&amp;size=${empty param.size ? 10 : param.size}" z="89OBhVCkgP8V3WM9DV1i23fyAwY="/>
-            <menu:item id="fi_teammatch_teammatchidequals" messageCode="global_menu_find" url="/teammatches?find=ByTeamMatchIdEquals&amp;form" z="h5d4803gkKNg4oZ7i+7otiFdN0s="/>
+            <menu:item id="fi_teammatch_teammatchidequals" messageCode="global_menu_find" url="/teammatches?find=ByTeamMatchIdEquals&amp;form&amp;page=1&amp;size=${empty param.size ? 10 : param.size}" z="XTczQpaSQuJVhtqGhNQ4Yh2TF1A="/>
         </menu:category>
         <menu:category id="c_player" z="cK8M0OPX/OW66GiF/SNgS8vWpjs=">
             <menu:item id="i_player_new" messageCode="global_menu_new" url="/players?form" z="xCwCGj+PbS/WEOyltkUd6nZ4y4g="/>
@@ -27,7 +27,7 @@
         <menu:category id="c_game" z="2kd/06qS5R1ulGaBKqjkf+qriAA=">
             <menu:item id="i_game_new" messageCode="global_menu_new" url="/games?form" z="cbApva5tgrDz/jmFy9M1rtm6WvQ="/>
             <menu:item id="i_game_list" messageCode="global_menu_list" url="/games?page=1&amp;size=${empty param.size ? 10 : param.size}" z="48NWieNgYE1J83qxtuhIJZ761Oc="/>
-            <menu:item id="fi_game_gameidequals" messageCode="global_menu_find" url="/games?find=ByGameIdEquals&amp;form" z="evVF7wEwmQTp8mrleB5H5VnDhso="/>
+            <menu:item id="fi_game_gameidequals" messageCode="global_menu_find" url="/games?find=ByGameIdEquals&amp;form&amp;page=1&amp;size=${empty param.size ? 10 : param.size}" z="SfpYH8JGrCl7/C6+0kw5q8H3oR0="/>
         </menu:category>
     </menu:menu>
 </div>

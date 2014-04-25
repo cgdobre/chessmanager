@@ -21,8 +21,17 @@ privileged aspect PlayerController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByTeams", method = RequestMethod.GET)
-    public String PlayerController.findPlayersByTeams(@RequestParam("teams") Set<Team> teams, Model uiModel) {
-        uiModel.addAttribute("players", Player.findPlayersByTeams(teams).getResultList());
+    public String PlayerController.findPlayersByTeams(@RequestParam("teams") Set<Team> teams, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("players", Player.findPlayersByTeams(teams, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Player.countFindPlayersByTeams(teams) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("players", Player.findPlayersByTeams(teams, sortFieldName, sortOrder).getResultList());
+        }
+        addDateTimeFormatPatterns(uiModel);
         return "players/list";
     }
     
@@ -32,8 +41,17 @@ privileged aspect PlayerController_Roo_Controller_Finder {
     }
     
     @RequestMapping(params = "find=ByUsernameEquals", method = RequestMethod.GET)
-    public String PlayerController.findPlayersByUsernameEquals(@RequestParam("username") String username, Model uiModel) {
-        uiModel.addAttribute("players", Player.findPlayersByUsernameEquals(username).getResultList());
+    public String PlayerController.findPlayersByUsernameEquals(@RequestParam("username") String username, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("players", Player.findPlayersByUsernameEquals(username, sortFieldName, sortOrder).setFirstResult(firstResult).setMaxResults(sizeNo).getResultList());
+            float nrOfPages = (float) Player.countFindPlayersByUsernameEquals(username) / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("players", Player.findPlayersByUsernameEquals(username, sortFieldName, sortOrder).getResultList());
+        }
+        addDateTimeFormatPatterns(uiModel);
         return "players/list";
     }
     
