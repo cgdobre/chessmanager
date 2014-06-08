@@ -52,14 +52,19 @@ public class PlayerFactory {
 			
 		} catch (EmptyResultDataAccessException e) {
 			// connect
-			Element page = HtmlDAO.getBody(HtmlDAO.BASE_URL + MEMBER_URL + username);
+			Element page = null;
+			try {
+				page = HtmlDAO.getBody(HtmlDAO.BASE_URL + MEMBER_URL + username);
+			} catch (Exception e2) {
+				System.err.println("Could not get member page for " + username + ": " + e2.getStackTrace());
+			}
 			
 			// build player
 			player = new Player();
 			player.setUsername(username);
 			
 			// get and validate player profile page
-			if (page.select("h1:containsOwn(Member Account Closed)").first() != null) {
+			if (page == null || page.select("h1:containsOwn(Member Account Closed)").first() != null) {
 				player.setIsDisabled(true);
 				Date fakeMemberSinceDate = Calendar.getInstance().getTime();
 				fakeMemberSinceDate.setTime(fakeMemberSinceDate.getTime() - 600 * 1000); // ensure it's in the past
