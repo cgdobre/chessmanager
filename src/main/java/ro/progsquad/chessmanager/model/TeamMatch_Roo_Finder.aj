@@ -28,14 +28,14 @@ privileged aspect TeamMatch_Roo_Finder {
     public static TypedQuery<TeamMatch> TeamMatch.findTeamMatchesByTeamMatchIdEquals(Long teamMatchId, String sortFieldName, String sortOrder) {
         if (teamMatchId == null) throw new IllegalArgumentException("The teamMatchId argument is required");
         EntityManager em = TeamMatch.entityManager();
-        String jpaQuery = "SELECT o FROM TeamMatch AS o WHERE o.teamMatchId = :teamMatchId";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM TeamMatch AS o WHERE o.teamMatchId = :teamMatchId");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<TeamMatch> q = em.createQuery(jpaQuery, TeamMatch.class);
+        TypedQuery<TeamMatch> q = em.createQuery(queryBuilder.toString(), TeamMatch.class);
         q.setParameter("teamMatchId", teamMatchId);
         return q;
     }

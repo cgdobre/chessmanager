@@ -62,14 +62,14 @@ privileged aspect Player_Roo_Finder {
     public static TypedQuery<Player> Player.findPlayersByUsernameEquals(String username, String sortFieldName, String sortOrder) {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
         EntityManager em = Player.entityManager();
-        String jpaQuery = "SELECT o FROM Player AS o WHERE o.username = :username";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Player AS o WHERE o.username = :username");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Player> q = em.createQuery(jpaQuery, Player.class);
+        TypedQuery<Player> q = em.createQuery(queryBuilder.toString(), Player.class);
         q.setParameter("username", username);
         return q;
     }

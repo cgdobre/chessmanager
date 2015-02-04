@@ -108,14 +108,14 @@ privileged aspect Team_Roo_Finder {
     public static TypedQuery<Team> Team.findTeamsByTeamIdEquals(Long teamId, String sortFieldName, String sortOrder) {
         if (teamId == null) throw new IllegalArgumentException("The teamId argument is required");
         EntityManager em = Team.entityManager();
-        String jpaQuery = "SELECT o FROM Team AS o WHERE o.teamId = :teamId";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Team AS o WHERE o.teamId = :teamId");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Team> q = em.createQuery(jpaQuery, Team.class);
+        TypedQuery<Team> q = em.createQuery(queryBuilder.toString(), Team.class);
         q.setParameter("teamId", teamId);
         return q;
     }
@@ -131,14 +131,14 @@ privileged aspect Team_Roo_Finder {
     public static TypedQuery<Team> Team.findTeamsByTeamNameEquals(String teamName, String sortFieldName, String sortOrder) {
         if (teamName == null || teamName.length() == 0) throw new IllegalArgumentException("The teamName argument is required");
         EntityManager em = Team.entityManager();
-        String jpaQuery = "SELECT o FROM Team AS o WHERE o.teamName = :teamName";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Team AS o WHERE o.teamName = :teamName");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Team> q = em.createQuery(jpaQuery, Team.class);
+        TypedQuery<Team> q = em.createQuery(queryBuilder.toString(), Team.class);
         q.setParameter("teamName", teamName);
         return q;
     }
