@@ -41,10 +41,10 @@ privileged aspect TeamMatchController_Roo_Controller {
         populateEditForm(uiModel, new TeamMatch());
         List<String[]> dependencies = new ArrayList<String[]>();
         if (Team.countTeams() == 0) {
-            dependencies.add(new String[] { "team", "teams" });
+            dependencies.add(new String[] { "challengerTeam", "teams" });
         }
         if (Team.countTeams() == 0) {
-            dependencies.add(new String[] { "team", "teams" });
+            dependencies.add(new String[] { "responderTeam", "teams" });
         }
         uiModel.addAttribute("dependencies", dependencies);
         return "teammatches/create";

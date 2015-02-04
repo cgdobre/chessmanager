@@ -39,10 +39,10 @@ privileged aspect GameController_Roo_Controller {
         populateEditForm(uiModel, new Game());
         List<String[]> dependencies = new ArrayList<String[]>();
         if (Player.countPlayers() == 0) {
-            dependencies.add(new String[] { "player", "players" });
+            dependencies.add(new String[] { "white", "players" });
         }
         if (Player.countPlayers() == 0) {
-            dependencies.add(new String[] { "player", "players" });
+            dependencies.add(new String[] { "black", "players" });
         }
         uiModel.addAttribute("dependencies", dependencies);
         return "games/create";

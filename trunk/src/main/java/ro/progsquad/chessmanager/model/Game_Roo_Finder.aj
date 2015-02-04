@@ -28,14 +28,14 @@ privileged aspect Game_Roo_Finder {
     public static TypedQuery<Game> Game.findGamesByGameIdEquals(Long gameId, String sortFieldName, String sortOrder) {
         if (gameId == null) throw new IllegalArgumentException("The gameId argument is required");
         EntityManager em = Game.entityManager();
-        String jpaQuery = "SELECT o FROM Game AS o WHERE o.gameId = :gameId";
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM Game AS o WHERE o.gameId = :gameId");
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
-            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
-                jpaQuery = jpaQuery + " " + sortOrder;
+                queryBuilder.append(" ").append(sortOrder);
             }
         }
-        TypedQuery<Game> q = em.createQuery(jpaQuery, Game.class);
+        TypedQuery<Game> q = em.createQuery(queryBuilder.toString(), Game.class);
         q.setParameter("gameId", gameId);
         return q;
     }
