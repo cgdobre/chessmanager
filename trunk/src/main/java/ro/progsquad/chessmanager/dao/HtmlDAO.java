@@ -10,6 +10,9 @@ import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 /**
  * @author cgdobre
  * 
@@ -22,7 +25,7 @@ public class HtmlDAO {
 	private static final int MAX_CACHE_SIZE = 350;
 
 	private static Map<String, Element> cache = new HashMap<String, Element>();
-	private static Map<Long, String> age = new HashMap<Long, String>();
+	private static BiMap<Long, String> age = HashBiMap.create();
 
 	public static Element getBody(String url) throws IOException {
 		if (cache.containsKey(url)) {
@@ -49,20 +52,18 @@ public class HtmlDAO {
 
 	private static void storeAge(String entry) {
 		Long time = System.currentTimeMillis();
-		if (!age.containsValue(entry)) {
-			while (age.containsKey(time)) {
-				time++;
-			}
+		while (age.containsKey(time)) {
+			time++;
 		}
-
-		age.put(time, entry);
+		
+		age.inverse().put(entry, time);
 	}
 
 	private static void cleanup() {
 		if (cache.size() < MAX_CACHE_SIZE) {
 			return;
 		}
-		List<Long> sortedList = asSortedList(age.keySet());
+		final List<Long> sortedList = asSortedList(age.keySet());
 		for (int i = 0; i < 50; i++) {
 			cache.remove(age.get(sortedList.get(i)));
 			age.remove(sortedList.get(i));
@@ -80,8 +81,11 @@ public class HtmlDAO {
 	 * @return the id within the href attribute of the element
 	 */
 	public static Long parseIdFromAnchorElement(Element anchorElement) {
-		String hrefAttribute = anchorElement.attr("href");
-		String id = hrefAttribute.substring(
+		if (anchorElement == null) {
+			throw new RuntimeException("HtmlDAO: Can not parse id from null anchor element.");
+		}
+		final String hrefAttribute = anchorElement.attr("href");
+		final String id = hrefAttribute.substring(
 				hrefAttribute.lastIndexOf("id=") + "id=".length()).trim();
 		return Long.parseLong(id);
 	}

@@ -42,11 +42,12 @@ public class TeamFactory {
 			team = Team.findTeamsByTeamNameEquals(teamName).getSingleResult();
 		} catch (EmptyResultDataAccessException e) {
 			// connect
-			String teamMatchesUrl = HtmlDAO.BASE_URL + GROUP_MATCHES_URL + teamName + "?show_all_current=1";
-			Element page = HtmlDAO.getBody(teamMatchesUrl);
+			final String teamUrl = HtmlDAO.BASE_URL + GROUP_URL + teamName;
+			Element page = HtmlDAO.getBody(teamUrl);
 			
 			// get team id
-			Long teamId = HtmlDAO.parseIdFromAnchorElement(page.select(" a[href^=" + GROUP_MEMBERS_BASE_URL + "]").first());
+			Element teamIdElement = page.select(" a[href^=" + GROUP_MEMBERS_BASE_URL + "]").first();
+			Long teamId = HtmlDAO.parseIdFromAnchorElement(teamIdElement);
 			
 			try {
 				team = Team.findTeamsByTeamIdEquals(teamId).getSingleResult();
