@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_ro_progsquad_chessmanager_model_Game" items="${games}" z="ikPAD8PmtT9sYtrwbB7vJNAzCCY=">
+        <table:table data="${games}" id="l_ro_progsquad_chessmanager_model_Game" path="/games" z="O3aC9gsd+DRAwGjG0dkJs3hHlig=">
+            <table:column id="c_ro_progsquad_chessmanager_model_Game_gameId" property="gameId" z="ezdmyTzwCNlrH7EaEvWnKn2UDgU="/>
+            <table:column id="c_ro_progsquad_chessmanager_model_Game_white" property="white" z="/3GOSaC9UfPoa970hvH0BMFILZI="/>
+            <table:column id="c_ro_progsquad_chessmanager_model_Game_black" property="black" z="vZyjfkdiAeoq9m+pirp/Sg9PGdY="/>
+            <table:column id="c_ro_progsquad_chessmanager_model_Game_winner" property="winner" z="qIRmLXBxrfnJKXNeebpQoNx+7GM="/>
+            <table:column id="c_ro_progsquad_chessmanager_model_Game_wonOnTime" property="wonOnTime" z="y81anudnRh+UDa9G8Sh5qaGi5fo="/>
+            <table:column id="c_ro_progsquad_chessmanager_model_Game_timePerMove" property="timePerMove" z="YS0LBgz5lGIGpn2IQSPVZJnlcls="/>
+        </table:table>
+    </page:list>
+</div>

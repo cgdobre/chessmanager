@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_ro_progsquad_chessmanager_model_TeamMatch" items="${teammatches}" z="wCfPjUUPo/nsDP7WqsG5D6p2aTQ=">
+        <table:table data="${teammatches}" id="l_ro_progsquad_chessmanager_model_TeamMatch" path="/teammatches" z="tod7VBwqIHXPfJR2+TEJRtxKmXk=">
+            <table:column id="c_ro_progsquad_chessmanager_model_TeamMatch_teamMatchId" property="teamMatchId" z="T+VucA2xIE4BxAvD6+VVy4PN91U="/>
+            <table:column id="c_ro_progsquad_chessmanager_model_TeamMatch_teamMatchName" property="teamMatchName" z="H2VgDuasNhiqTpGE/CfCVGRQnz0="/>
+            <table:column date="true" dateTimePattern="${teamMatch_startdate_date_format}" id="c_ro_progsquad_chessmanager_model_TeamMatch_startDate" property="startDate" z="tXc2lumHUV+xON/boLObgC3LdIA="/>
+            <table:column date="true" dateTimePattern="${teamMatch_enddate_date_format}" id="c_ro_progsquad_chessmanager_model_TeamMatch_endDate" property="endDate" z="zPwJqx68euqwkOww7dNH+k4l60g="/>
+            <table:column id="c_ro_progsquad_chessmanager_model_TeamMatch_gameType" property="gameType" z="odNx2CC9b84nnAUsvvxBg8VwGfs="/>
+            <table:column id="c_ro_progsquad_chessmanager_model_TeamMatch_timePerMove" property="timePerMove" z="RXooOivj8fXY8PUOgmCY7LrSjr4="/>
+        </table:table>
+    </page:list>
+</div>
