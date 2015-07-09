@@ -1,2 +1,2 @@
-# google-sheet-dao
-Java Data Access Object for Google Sheet OAuth2 authentication and Spreadsheet basic operations
+# ChessManager
+Useful webapp based on Spring ROO to generate leaderboards for Chess.com teams

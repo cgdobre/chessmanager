@@ -1,2 +1,6 @@
 /target/
 /workdir/
+/.classpath
+/log.roo
+/.settings/
+/.project

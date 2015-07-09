@@ -3,7 +3,9 @@
  */
 package ro.progsquad.chessmanager.views;
 
+import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -14,13 +16,13 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.gdata.data.spreadsheet.ListEntry;
-import com.google.gdata.util.ServiceException;
-
-import ro.progsquad.chessmanager.dao.GoogleSheetDAO;
 import ro.progsquad.chessmanager.model.Game;
 import ro.progsquad.chessmanager.model.Player;
 import ro.progsquad.chessmanager.model.Team;
+import ro.progsquad.google.sheet.dao.GoogleSheetDAO;
+
+import com.google.gdata.data.spreadsheet.ListEntry;
+import com.google.gdata.util.ServiceException;
 
 /**
  * @author cgdobre
@@ -30,6 +32,9 @@ public class Rankings {
 
 	public static final String CHESS_MANAGER_WORKBOOK_NAME = "ChessManager";
 	public static final String SHEET_NAME = "Rankings";
+	public static final String GOOGLE_USER_PROPERTY = "googleUser";
+	public static final String GOOGLE_PASS_PROPERTY = "googleAppPassword";
+	
 	public static final String USERNAME_KEY = "username";
 	public static final String ONLINE_RATING_KEY = "onlinerating";
 	public static final String VICTORIES_KEY = "victories";
@@ -45,7 +50,8 @@ public class Rankings {
 	public static final String ONLINE_CHESS_STATS = "onlinechessstats";
 	public static final String CURRENT_GAMES_NO = "CurrentGamesNo";
 	
-	public static Map<String, String> asRankingMap(Player player, Team team) throws NumberFormatException, IOException, ServiceException {
+	public static Map<String, String> asRankingMap(Player player, Team team) 
+			throws NumberFormatException, IOException, ServiceException, GeneralSecurityException {
 		System.out.println("Calculate rankings for user " + player.getUsername() + " in team " + team.getTeamName());
 		
 		Map<String, String> attributesMap = new HashMap<String, String>();
@@ -85,7 +91,10 @@ public class Rankings {
 			}
 		}
 		
-		List<ListEntry> rankings = GoogleSheetDAO.getInstance(CHESS_MANAGER_WORKBOOK_NAME, Rankings.SHEET_NAME + "-" + team.getTeamName())
+		List<ListEntry> rankings = GoogleSheetDAO.getInstance(System.getProperty(GOOGLE_USER_PROPERTY), 
+										new File (System.getProperty(GOOGLE_PASS_PROPERTY)), 
+										CHESS_MANAGER_WORKBOOK_NAME, 
+										Rankings.SHEET_NAME + "-" + team.getTeamName())
 				.query(Rankings.USERNAME_KEY + "=\"" + player.getUsername() + "\"");
 		double lastScore = rankings.isEmpty() || StringUtils.isEmpty(rankings.get(0).getCustomElements().getValue(LAST_SCORE)) ? 0 
 				: Double.parseDouble(rankings.get(0).getCustomElements().getValue(LAST_SCORE).replace(',', '.'));
