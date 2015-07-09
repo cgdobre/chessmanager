@@ -112,7 +112,7 @@ public class TeamFactory {
 
 		} while (nextPageUrl != null && !nextPageUrl.equals(pageUrl));
 		
-		// remove players that are no longer part of the group
+		/* remove players that are no longer part of the group
 		Set<Team> teams = new HashSet<Team>();
 		teams.add(team);
 		for (Player player : Player.findPlayersByTeams(teams).getResultList()) {
@@ -126,7 +126,7 @@ public class TeamFactory {
 				player.merge();
 				System.out.println("Player removed from team: " + player.getUsername());
 			}
-		}
+		}*/
 	}
 
 	@Transactional

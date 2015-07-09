@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.gdata.data.spreadsheet.ListEntry;
 import com.google.gdata.util.ServiceException;
 
-import ro.progsquad.chessmanager.ChessManager;
 import ro.progsquad.chessmanager.dao.GoogleSheetDAO;
 import ro.progsquad.chessmanager.model.Game;
 import ro.progsquad.chessmanager.model.Player;
@@ -29,6 +28,7 @@ import ro.progsquad.chessmanager.model.Team;
  */
 public class Rankings {
 
+	public static final String CHESS_MANAGER_WORKBOOK_NAME = "ChessManager";
 	public static final String SHEET_NAME = "Rankings";
 	public static final String USERNAME_KEY = "username";
 	public static final String ONLINE_RATING_KEY = "onlinerating";
@@ -85,7 +85,7 @@ public class Rankings {
 			}
 		}
 		
-		List<ListEntry> rankings = GoogleSheetDAO.getInstance(ChessManager.CHESS_MANAGER_WORKBOOK_NAME, Rankings.SHEET_NAME + "-" + team.getTeamName())
+		List<ListEntry> rankings = GoogleSheetDAO.getInstance(CHESS_MANAGER_WORKBOOK_NAME, Rankings.SHEET_NAME + "-" + team.getTeamName())
 				.query(Rankings.USERNAME_KEY + "=\"" + player.getUsername() + "\"");
 		double lastScore = rankings.isEmpty() || StringUtils.isEmpty(rankings.get(0).getCustomElements().getValue(LAST_SCORE)) ? 0 
 				: Double.parseDouble(rankings.get(0).getCustomElements().getValue(LAST_SCORE).replace(',', '.'));
